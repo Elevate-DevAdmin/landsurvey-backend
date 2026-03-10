@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Quote Export</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <img height="auto" width="100" src="https://api.elevatelandsurveying.ca/logo.png" alt="">
+    </div>
+    <h1 style="text-align: center;">Quote</h1>
+
+    <table style="width:100%;border-collapse: collapse;" border="1">
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Quote Number
+            </td>
+            <td>
+                <%= quote.number_str %>
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Job Number
+            </td>
+            <td>
+                <%= quote.job_id.number_str %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Client Number
+            </td>
+            <td>
+                <%= quote.client_id.number_str %>
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Estimated Hours
+            </td>
+            <td>
+                <%= quote.total_estimated_hour  %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Labour Cost Line Items
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < quote.billable_line_items.labourItem.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %></td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= quote.billable_line_items.labourItem[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= quote.billable_line_items.labourItem[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= quote.billable_line_items.labourItem[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Estimated hour</td>
+                                        <td>
+                                            <%= quote.billable_line_items.labourItem[i].estimated_hour %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(quote.billable_line_items.labourItem[i].text_exempt){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">
+                                Other Cost Line Items
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <% for(var i=0; i < quote.billable_line_items.materialItem.length; i++) {%>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                                            </td>
+                                            <td>
+                                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.materialItem[i].costItem %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.materialItem[i].unit %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.materialItem[i].unitCost %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                                        <td>
+                                                            <% if(quote.billable_line_items.materialItem[i].text_exempt){%>
+                                                                Yes
+                                                                <% } else {%>
+                                                                    No
+                                                                    <% }%>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">
+                                Fixed Price Line Items
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <% for(var i=0; i < quote.billable_line_items.fixItem.length; i++) {%>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                                            </td>
+                                            <td>
+                                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.fixItem[i].costItem %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.fixItem[i].unit %>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                                        <td>
+                                                            <%= quote.billable_line_items.fixItem[i].unitCost %>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                                        <td>
+                                                            <% if(quote.billable_line_items.fixItem[i].text_exempt){%>
+                                                                Yes
+                                                                <% } else {%>
+                                                                    No
+                                                                    <% }%>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                </table>
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </td>
+          </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Notes
+            </td>
+            <td>
+                <%= quote.remark %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Active
+            </td>
+            <td>
+                <% if(quote.active){%>
+                    Yes
+                    <% } else {%>
+                        No
+                        <% }%>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

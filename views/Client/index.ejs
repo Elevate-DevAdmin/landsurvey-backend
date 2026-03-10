@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Client Export</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <img height="auto" width="100" src="https://api.elevatelandsurveying.ca/logo.png" alt="">
+    </div>
+    <h1 style="text-align: center;">Client</h1>
+
+    <table style="width:100%;border-collapse: collapse;" border="1">
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Client Number
+            </td>
+            <td>
+                <%= client.client_number %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Company Details
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Company Name</td>
+                        <td><%= client.company_name %></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Company Email</td>
+                        <td><%= client.company_email %></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Client Type(s)</td>
+                        <td>
+                            <table style="width:100%;border-collapse: collapse;" border="1">
+                                <% for(var i=0; i < client.client_type.length; i++) {%>
+                                    <tr>
+                                        <td><%= client.client_type[i] %></td>
+                                    </tr>
+                                <% } %>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Contact
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < client.contacts.length; i++) {%>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Contact <%= i + 1 %></td>
+                        <td>
+                            <table style="width:100%;border-collapse: collapse;" border="1">
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Full Name</td>
+                                    <td><%= client.contacts[i].first_name %> <%= client.contacts[i].last_name %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Position</td>
+                                    <td><%= client.contacts[i].position %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Depatrment</td>
+                                    <td><%= client.contacts[i].department %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Location</td>
+                                    <td><%= client.contacts[i].location %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Email</td>
+                                    <td><%= client.contacts[i].email %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Phone</td>
+                                    <td><%= client.contacts[i].phone %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Cell</td>
+                                    <td><%= client.contacts[i].cell %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Notes</td>
+                                    <td><%= client.contacts[i].remark %></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Locations
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < client.locations.length; i++) {%>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Location <%= i + 1 %> </td>
+                        <td>
+                            <table style="width:100%;border-collapse: collapse;" border="1">
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Munciple Address</td>
+                                    <td><%= client.locations[i].munciple_address %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">State / Province</td>
+                                    <td><%= client.locations[i].state %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">City</td>
+                                    <td><%= client.locations[i].city %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Postal Code</td>
+                                    <td><%= client.locations[i].postal_code %></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Payment Terms
+            </td>
+            <td>
+                <%= client.payment_terms %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Notes
+            </td>
+            <td>
+                <%= client.remark %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Active
+            </td>
+            <td>
+                <% if(client.active){%>
+                    Yes
+                <% } else {%>
+                    No
+                <% }%>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

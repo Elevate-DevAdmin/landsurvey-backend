@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>RateSheet Export</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <img height="auto" width="100" src="https://api.elevatelandsurveying.ca/logo.png" alt="">
+    </div>
+    <h1 style="text-align: center;">Ratesheet</h1>
+
+    <table style="width:100%;border-collapse: collapse;" border="1">
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Name
+            </td>
+            <td>
+                <%= ratesheet.name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Notes
+            </td>
+            <td>
+                <%= ratesheet.remark %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Labour Cost Line Items
+            </td>
+            <td>
+                <% if(ratesheet.billable_line_items?.labourItem){%>
+                    <table style="width:100%;border-collapse: collapse;" border="1">
+                        <% for(var i=0; i < ratesheet.billable_line_items.labourItem.length; i++) {%>
+                            <tr>
+                                <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                                </td>
+                                <td>
+                                    <table style="width:100%;border-collapse: collapse;" border="1">
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                            <td>
+                                                <%= ratesheet.billable_line_items.labourItem[i].costItem %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Unit</td>
+                                            <td>
+                                                <%= ratesheet.billable_line_items.labourItem[i].unit %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                            <td>
+                                                <%= ratesheet.billable_line_items.labourItem[i].unitCost %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                            <td>
+                                                <% if(ratesheet.billable_line_items.labourItem[i].text_exempt){%>
+                                                    Yes
+                                                    <% } else {%>
+                                                        No
+                                                        <% }%>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+                <% }%>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Other Cost Line Items
+            </td>
+            <td>
+                <% if(ratesheet.billable_line_items?.materialItem){%>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < ratesheet.billable_line_items.materialItem.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.materialItem[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.materialItem[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.materialItem[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(ratesheet.billable_line_items.materialItem[i].text_exempt){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+                <% }%>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Fixed Price Line Items
+            </td>
+            <td>
+                <% if(ratesheet.billable_line_items?.fixItem){%>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < ratesheet.billable_line_items.fixItem.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.fixItem[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.fixItem[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= ratesheet.billable_line_items.fixItem[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(ratesheet.billable_line_items.fixItem[i].text_exempt){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+                <% }%>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Active
+            </td>
+            <td>
+                <% if(ratesheet.active){%>
+                    Yes
+                    <% } else {%>
+                        No
+                        <% }%>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

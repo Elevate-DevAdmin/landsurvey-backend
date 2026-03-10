@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Task Export</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <img height="auto" width="100" src="https://api.elevatelandsurveying.ca/logo.png" alt="">
+    </div>
+    <h1 style="text-align: center;">Task</h1>
+
+    <table style="width:100%;border-collapse: collapse;" border="1">
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Task Number
+            </td>
+            <td>
+                <%= task.number_str %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Task Status
+            </td>
+            <td>
+                <%= task.status %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Job Number
+            </td>
+            <td>
+                <%= task.job_id.number_str %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Client Number
+            </td>
+            <td>
+                <%= task.client_id.number_str %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Office
+            </td>
+            <td>
+                <%= task.office_id.name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Task Category
+            </td>
+            <td>
+                <%= task.task_category_id.name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Task Scope
+            </td>
+            <td>
+                <%= task.task_scope_id.name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Estimated Hours
+            </td>
+            <td>
+                <%= task.estimate_hour  %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Estimated Cost
+            </td>
+            <td>
+                <%= task.total_cost_hour  %>
+            </td>
+        </tr>
+       <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Labour Cost Line Items
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.billing_line_items.labour_item.labour_cost_items.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.labour_cost_items[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.labour_cost_items[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.labour_cost_items[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Estimated hours</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.labour_cost_items[i].estimated_hour %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(task.billing_line_items.labour_item.labour_cost_items[i].text_exemptLabour){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.billing_line_items.labour_item.additional_fields.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Additional Field <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Name</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.additional_fields[i].name %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= task.billing_line_items.labour_item.additional_fields[i].value %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Other Cost Line Items
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.billing_line_items.equipment_item.equipment_cost_items.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= task.billing_line_items.equipment_item.equipment_cost_items[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= task.billing_line_items.equipment_item.equipment_cost_items[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= task.billing_line_items.equipment_item.equipment_cost_items[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(task.billing_line_items.equipment_item.equipment_cost_items[i].text_exemptLabour){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.billing_line_items.equipment_item.additional_fields.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Additional Field <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Name</td>
+                                        <td>
+                                            <%= task.billing_line_items.equipment_item.additional_fields[i].name %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= task.billing_line_items.equipment_item.additional_fields[i].value %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Fixed Price Line Items
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.billing_line_items.fixed_item.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Item <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Cost Item</td>
+                                        <td>
+                                            <%= task.billing_line_items.fixed_item[i].costItem %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit</td>
+                                        <td>
+                                            <%= task.billing_line_items.fixed_item[i].unit %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Unit Cost ($)</td>
+                                        <td>
+                                            <%= task.billing_line_items.fixed_item[i].unitCost %>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Tex Exempt</td>
+                                        <td>
+                                            <% if(task.billing_line_items.fixed_item[i].text_exemptLabour){%>
+                                                Yes
+                                                <% } else {%>
+                                                    No
+                                                    <% }%>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Locations
+            </td>
+            <td>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < task.client_locations.length; i++) {%>
+                        <tr>
+                            <td style="text-align: center; font-weight: bold;">Locations <%= i + 1 %>
+                            </td>
+                            <td>
+                                <table style="width:100%;border-collapse: collapse;" border="1">
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">Munciple Address</td>
+                                        <td>
+                                            <%= task.client_locations[i].munciple_address %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">City</td>
+                                        <td>
+                                            <%= task.client_locations[i].city %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; font-weight: bold;">State</td>
+                                        <td>
+                                            <%= task.client_locations[i].state %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Notes
+            </td>
+            <td>
+                <%= task.remark %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Active
+            </td>
+            <td>
+                <% if(task.active){%>
+                    Yes
+                    <% } else {%>
+                        No
+                        <% }%>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

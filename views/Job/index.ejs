@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Job Export</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <img height="auto" width="100" src="https://api.elevatelandsurveying.ca/logo.png" alt="">
+    </div>
+    <h1 style="text-align: center;">Job</h1>
+
+    <table style="width:100%;border-collapse: collapse;" border="1">
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Job Number
+            </td>
+            <td>
+                <%= job.job_number %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Site Address
+            </td>
+            <td>
+                <%= job.locations[0].munciple_address %>,
+                <%= job.locations[0].state %>,
+                <%= job.locations[0].city %>,
+                <%= job.locations[0].postal_code %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Status
+            </td>
+            <td>
+                <%= job.status %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Sub Contracts
+            </td>
+            <td>
+                <%= job.sub_contract %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Invoice Line Item Type
+            </td>
+            <td>
+                <%= job.invoice_line_item_type %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Taxes Name
+            </td>
+            <td>
+                <%= job.taxes_name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Order Date
+            </td>
+            <td>
+                <%= job.order_date %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Due Date
+            </td>
+            <td>
+                <%= job.due_date %>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Taxes
+            </td>
+            <td>
+                <% if(job.tax){%>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < job.tax.length; i++) {%>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Tax <%= i + 1 %> </td>
+                        <td>
+                            <table style="width:100%;border-collapse: collapse;" border="1">
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Tax Name</td>
+                                    <td><%= job.tax[i].taxesName %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Percentage</td>
+                                    <td><%= job.tax[i].tax_percentage %></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+                <% }%>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Fees
+            </td>
+            <td>
+                <% if(job.fee){%>
+                <table style="width:100%;border-collapse: collapse;" border="1">
+                    <% for(var i=0; i < job.fee.length; i++) {%>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">Fee <%= i + 1 %> </td>
+                        <td>
+                            <table style="width:100%;border-collapse: collapse;" border="1">
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Fee Name</td>
+                                    <td><%= job.fee[i].FeesName %></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; font-weight: bold;">Percentage</td>
+                                    <td><%= job.fee[i].fees_percentage %></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+                <% }%>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;">
+                Active
+            </td>
+            <td>
+                <% if(job.active){%>
+                    Yes
+                <% } else {%>
+                    No
+                <% }%>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
