@@ -3,6 +3,8 @@ const Joi = require('joi');
 const {
   createComment,
   readAllComment,
+  readCommentById,
+  readCommentByFilter,
 } = require('../controller/comment.controller');
 const route = express.Router();
 
@@ -31,6 +33,8 @@ const commentValidation = (req, res, next) => {
 };
 
 route.get('/all', readAllComment);
+route.get('/filter', readCommentByFilter);
+route.get('/one/:id', readCommentById);
 route.post('/create', createComment);
 
 module.exports = route;

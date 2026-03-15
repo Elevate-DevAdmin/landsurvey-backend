@@ -201,6 +201,7 @@ exports.admin_permission = [
   'comment_read',
   'comment_one',
   'comment_all',
+  'comment_filter',
   'state_create',
   'state_update',
   'state_delete',
