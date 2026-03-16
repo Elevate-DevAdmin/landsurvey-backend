@@ -40,6 +40,7 @@ const jobstatusRoute = require('./jobstatus.routes');
 const categoryRoute = require('./category.routes');
 const dwrRoute = require('./dwr.routes');
 const dwrReportsRoute = require('./reports.routes');
+const scheduleRoute = require('./schedule.routes');
 const {
   exportClient,
   exportJob,
@@ -97,6 +98,7 @@ route.use('/task', verifyAccessToken, taskRoute);
 route.use('/ratesheet', verifyAccessToken, ratesheetRoute);
 route.use('/dwr', verifyAccessToken, dwrRoute);
 route.use('/dwrreports', verifyAccessToken, dwrReportsRoute);
+route.use('/schedule', verifyAccessToken, scheduleRoute);
 route.use('/invoice', invoiceRoute);
 
 // Identifier counters

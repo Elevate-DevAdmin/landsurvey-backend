@@ -7,7 +7,7 @@ let comment = mongoose.Schema(
       default: null,
       index: true,
     },
-    task_id: {
+    schedule_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'task',
       default: null,

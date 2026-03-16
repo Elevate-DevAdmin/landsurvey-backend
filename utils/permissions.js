@@ -202,6 +202,8 @@ exports.admin_permission = [
   'comment_one',
   'comment_all',
   'comment_filter',
+  'schedule_all',
+  'schedule_create',
   'state_create',
   'state_update',
   'state_delete',

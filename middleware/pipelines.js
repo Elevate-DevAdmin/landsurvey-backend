@@ -447,6 +447,155 @@ exports.TASK_PIPELINE = [
   },
 ];
 
+exports.SCHEDULING_PIPELINE = [
+  {
+    $lookup: {
+      from: 'jobs',
+      let: { job_id: '$job_id' },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [{ $eq: ['$_id', '$$job_id'] }],
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            number_str: 1,
+          },
+        },
+      ],
+      as: 'job_id',
+    },
+  },
+  {
+    $unwind: {
+      path: '$job_id',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $lookup: {
+      from: 'clients',
+      let: { client_id: '$client_id' },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [{ $eq: ['$_id', '$$client_id'] }],
+            },
+          },
+        },
+      ],
+      as: 'client_id',
+    },
+  },
+  {
+    $unwind: {
+      path: '$client_id',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $lookup: {
+      from: 'users',
+      let: { manager_ids: { $ifNull: ['$project_managers.manager', []] } },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $in: ['$_id', '$$manager_ids'] },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            first_name: 1,
+            last_name: 1,
+          },
+        },
+      ],
+      as: 'project_managers',
+    },
+  },
+  {
+    $lookup: {
+      from: 'users',
+      let: { member_ids: { $ifNull: ['$assigned_members', []] } },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $in: ['$_id', '$$member_ids'] },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            first_name: 1,
+            last_name: 1,
+          },
+        },
+      ],
+      as: 'assigned_members',
+    },
+  },
+  {
+    $lookup: {
+      from: 'job_scopes',
+      localField: 'select_task_scope_id',
+      foreignField: '_id',
+      as: 'task_scope_id',
+    },
+  },
+  {
+    $unwind: {
+      path: '$task_scope_id',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $lookup: {
+      from: 'comments',
+      let: { comment_ids: { $ifNull: ['$comments.comment_id', []] } },
+      pipeline: [
+        {
+          $match: {
+            $expr: { $in: ['$_id', '$$comment_ids'] },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            remark: 1,
+            createdAt: 1,
+          },
+        },
+      ],
+      as: 'comments',
+    },
+  },
+  {
+    $project: {
+      task_number: 1,
+      group_number: 1,
+      sequence_number: 1,
+      planned_date: 1,
+      task_scope_id: 1,
+      cost_item: 1,
+      estimated_hours: 1,
+      is_deleted: 1,
+      job_id: 1,
+      client_id: 1,
+      project_managers: 1,
+      assigned_members: 1,
+      comments: 1,
+      createdAt: { $dateToString: { format: '%d-%m-%Y', date: '$createdAt' } },
+      updatedAt: { $dateToString: { format: '%d-%m-%Y', date: '$updatedAt' } },
+    },
+  },
+];
+
 exports.QUOTE_TASK_PIPELINE = [
   {
     $lookup: {
