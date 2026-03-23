@@ -1,22 +1,29 @@
-let mongoose = require('mongoose')
+let mongoose = require('mongoose');
 
-let jobscope = mongoose.Schema({
-
+let jobscope = mongoose.Schema(
+  {
     name: {
-        type: String,
-        default: null,
-        index: true
+      type: String,
+      default: null,
+      index: true,
     },
     remark: {
-        type: String,
-        default: null,
-        index: true
+      type: String,
+      default: null,
+      index: true,
     },
     is_deleted: {
-        type: Boolean,
-        default: false,
-        index: true
+      type: Boolean,
+      default: false,
+      index: true,
     },
-}, { timestamps: true })
+    active: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+  },
+  { timestamps: true },
+);
 
-module.exports = mongoose.model("job_scope", jobscope)
+module.exports = mongoose.model('job_scope', jobscope);
