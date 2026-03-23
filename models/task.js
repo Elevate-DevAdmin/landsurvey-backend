@@ -1,15 +1,15 @@
-let mongoose = require("mongoose");
-var autoIncrement = require("mongoose-auto-increment");
+let mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 
 let task = mongoose.Schema(
   {
     attachments: {
       type: String,
-      default: "",
+      default: '',
       index: true,
     },
     client_id: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
       default: null,
       index: true,
     },
@@ -180,15 +180,15 @@ let task = mongoose.Schema(
       index: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 autoIncrement.initialize(mongoose.connection);
 task.plugin(autoIncrement.plugin, {
-  model: "task",
-  field: "number",
+  model: 'task',
+  field: 'number',
   startAt: 1,
   incrementBy: 1,
 });
 
-module.exports = mongoose.model("task", task);
+module.exports = mongoose.model('task', task);

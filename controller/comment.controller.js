@@ -5,10 +5,10 @@ const comment = require('../models/comment');
 
 exports.createComment = async (req, res) => {
   try {
-    const { task_id, user_id, remark } = req.body;
+    const { schedule_id, user_id, remark } = req.body;
 
     const newComment = await comment.create({
-      task_id,
+      schedule_id,
       user_id,
       remark,
     });
@@ -33,22 +33,19 @@ exports.createComment = async (req, res) => {
 
 exports.readCommentByFilter = async (req, res) => {
   try {
-    const { task_id, user_id } = req.query;
+    const { schedule_id } = req.query;
 
     const matchQuery = { is_deleted: false };
 
-    if (task_id) {
-      if (!mongoose.Types.ObjectId.isValid(task_id)) {
-        return res.send({ statusCode: 400, message: 'Invalid task ID', success: false });
+    if (schedule_id) {
+      if (!mongoose.Types.ObjectId.isValid(schedule_id)) {
+        return res.send({
+          statusCode: 400,
+          message: 'Invalid Schedule ID',
+          success: false,
+        });
       }
-      matchQuery.task_id = new mongoose.Types.ObjectId(task_id);
-    }
-
-    if (user_id) {
-      if (!mongoose.Types.ObjectId.isValid(user_id)) {
-        return res.send({ statusCode: 400, message: 'Invalid user ID', success: false });
-      }
-      matchQuery.user_id = new mongoose.Types.ObjectId(user_id);
+      matchQuery.schedule_id = new mongoose.Types.ObjectId(schedule_id);
     }
 
     const comments = await comment.aggregate([
@@ -58,7 +55,11 @@ exports.readCommentByFilter = async (req, res) => {
     ]);
 
     logger.accessLog.info('comment fetch by filter success');
-    res.send({ statusCode: 200, message: 'Comments Fetched Successfully', data: comments });
+    res.send({
+      statusCode: 200,
+      message: 'Comments Fetched Successfully',
+      data: comments,
+    });
   } catch (err) {
     logger.errorLog.error('comment fetch by filter fail');
     res.send({ statusCode: 500, message: 'Comment Fetch Fail', error: err });
@@ -70,7 +71,11 @@ exports.readCommentById = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.send({ statusCode: 400, message: 'Invalid comment ID', success: false });
+      return res.send({
+        statusCode: 400,
+        message: 'Invalid comment ID',
+        success: false,
+      });
     }
 
     const commentData = await comment.aggregate([
@@ -81,11 +86,19 @@ exports.readCommentById = async (req, res) => {
     ]);
 
     if (!commentData.length) {
-      return res.send({ statusCode: 404, message: 'Comment not found', success: false });
+      return res.send({
+        statusCode: 404,
+        message: 'Comment not found',
+        success: false,
+      });
     }
 
     logger.accessLog.info('comment fetch by id success');
-    res.send({ statusCode: 200, message: 'Comment Fetch Successfully', data: commentData[0] });
+    res.send({
+      statusCode: 200,
+      message: 'Comment Fetch Successfully',
+      data: commentData[0],
+    });
   } catch (err) {
     logger.errorLog.error('comment fetch by id fail');
     res.send({ statusCode: 500, message: 'Comment Fetch Fail', error: err });

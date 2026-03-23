@@ -2,21 +2,20 @@ let mongoose = require('mongoose');
 
 let scheduling = mongoose.Schema(
   {
-    task_number: {
-      // number_str in the task collection
-      type: String,
+    task_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'task',
       default: null,
       index: true,
     },
     job_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'job',
       default: null,
       index: true,
     },
-    client_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'client',
+    select_client_id: {
+      type: mongoose.Schema.ObjectId,
       default: null,
       index: true,
     },
@@ -33,8 +32,8 @@ let scheduling = mongoose.Schema(
       index: true,
     },
     cost_item: {
-      type: String,
-      default: null,
+      type: [String],
+      default: [],
       index: true,
     },
     group_number: {
@@ -71,6 +70,11 @@ let scheduling = mongoose.Schema(
     estimated_hours: {
       type: Number,
       default: null,
+      index: true,
+    },
+    document_link: {
+      type: String,
+      default: '',
       index: true,
     },
     is_deleted: {

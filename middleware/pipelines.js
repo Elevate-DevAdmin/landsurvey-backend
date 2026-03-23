@@ -62,7 +62,8 @@ exports.COMMENT_PIPELINE = [
       // user details
       user: {
         user_id: '$user._id',
-        user_name: '$user.name',
+        user_first_name: '$user.first_name',
+        user_last_name: '$user.last_name',
         user_email: '$user.email',
       },
       // task details
@@ -450,20 +451,28 @@ exports.TASK_PIPELINE = [
 exports.SCHEDULING_PIPELINE = [
   {
     $lookup: {
+      from: 'tasks',
+      localField: 'task_id',
+      foreignField: '_id',
+      as: 'task',
+    },
+  },
+  {
+    $unwind: '$task',
+  },
+  {
+    $lookup: {
       from: 'jobs',
-      let: { job_id: '$job_id' },
+      let: { number_str: '$job_id' },
       pipeline: [
         {
           $match: {
             $expr: {
-              $and: [{ $eq: ['$_id', '$$job_id'] }],
+              $and: [
+                { $eq: ['$number_str', '$$number_str'] },
+                { $eq: ['$is_deleted', false] }, // Exclude deleted ratesheets
+              ],
             },
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            number_str: 1,
           },
         },
       ],
@@ -471,20 +480,20 @@ exports.SCHEDULING_PIPELINE = [
     },
   },
   {
-    $unwind: {
-      path: '$job_id',
-      preserveNullAndEmptyArrays: true,
-    },
+    $unwind: '$job_id',
   },
   {
     $lookup: {
       from: 'clients',
-      let: { client_id: '$client_id' },
+      let: { select_client_id: '$select_client_id' },
       pipeline: [
         {
           $match: {
             $expr: {
-              $and: [{ $eq: ['$_id', '$$client_id'] }],
+              $and: [
+                { $eq: ['$_id', '$$select_client_id'] },
+                { $eq: ['$is_deleted', false] }, // Exclude deleted ratesheets
+              ],
             },
           },
         },
@@ -493,10 +502,7 @@ exports.SCHEDULING_PIPELINE = [
     },
   },
   {
-    $unwind: {
-      path: '$client_id',
-      preserveNullAndEmptyArrays: true,
-    },
+    $unwind: '$client_id',
   },
   {
     $lookup: {
@@ -522,7 +528,7 @@ exports.SCHEDULING_PIPELINE = [
   {
     $lookup: {
       from: 'users',
-      let: { member_ids: { $ifNull: ['$assigned_members', []] } },
+      let: { member_ids: { $ifNull: ['$assigned_members.employee', []] } },
       pipeline: [
         {
           $match: {
@@ -540,20 +546,7 @@ exports.SCHEDULING_PIPELINE = [
       as: 'assigned_members',
     },
   },
-  {
-    $lookup: {
-      from: 'job_scopes',
-      localField: 'select_task_scope_id',
-      foreignField: '_id',
-      as: 'task_scope_id',
-    },
-  },
-  {
-    $unwind: {
-      path: '$task_scope_id',
-      preserveNullAndEmptyArrays: true,
-    },
-  },
+
   {
     $lookup: {
       from: 'comments',
@@ -576,8 +569,16 @@ exports.SCHEDULING_PIPELINE = [
     },
   },
   {
+    $addFields: {
+      document_link: { $ifNull: ['$document_link', ''] },
+    },
+  },
+  {
     $project: {
+      task: 1,
       task_number: 1,
+      job_id: 1,
+      client_id: 1,
       group_number: 1,
       sequence_number: 1,
       planned_date: 1,
@@ -590,6 +591,7 @@ exports.SCHEDULING_PIPELINE = [
       project_managers: 1,
       assigned_members: 1,
       comments: 1,
+      document_link: 1,
       createdAt: { $dateToString: { format: '%d-%m-%Y', date: '$createdAt' } },
       updatedAt: { $dateToString: { format: '%d-%m-%Y', date: '$updatedAt' } },
     },

@@ -1,23 +1,35 @@
 const express = require('express');
 const Joi = require('joi');
-const { readAllSchedule, createSchedule } = require('../controller/schedule.controller');
+const {
+  readAllSchedule,
+  readSchedule,
+  createSchedule,
+  updateSchedule,
+} = require('../controller/schedule.controller');
 const route = express.Router();
 
 const validation = Joi.object({
-  task_number: Joi.string().required().label('Task Number'),
-  job_id: Joi.string().hex().length(24).required().label('Job ID'),
-  client_id: Joi.string().hex().length(24).required().label('Client ID'),
-  project_managers: Joi.array().items(Joi.object()).optional().label('Project Managers'),
+  // task_number: Joi.string().required().label('Task Number'),
+  //job_id: Joi.string().hex().length(24).required().label('Job ID'),
+  //client_id: Joi.string().hex().length(24).required().label('Client ID'),
+  project_managers: Joi.array()
+    .items(Joi.object())
+    .optional()
+    .label('Project Managers'),
   task_scope_id: Joi.string().optional().allow(null, '').label('Task Scope ID'),
   cost_item: Joi.string().optional().allow(null, '').label('Cost Item'),
   group_number: Joi.number().optional().allow(null).label('Group Number'),
   sequence_number: Joi.number().optional().allow(null).label('Sequence Number'),
   planned_date: Joi.date().optional().allow(null).label('Planned Date'),
-  assigned_members: Joi.array().items(Joi.string().hex().length(24)).optional().label('Assigned Members'),
+  assigned_members: Joi.array()
+    .items(Joi.string().hex().label('Assigned Members'))
+    .optional(),
   estimated_hours: Joi.number().optional().allow(null).label('Estimated Hours'),
-  comments: Joi.array().items(
-    Joi.object({ comment_id: Joi.string().hex().length(24).required() })
-  ).optional().label('Comments'),
+  comments: Joi.array()
+    .items(Joi.object({ comment_id: Joi.string().optional().label('comment') }))
+    .optional()
+    .label('Comments'),
+  document_link: Joi.string().optional().allow('').label('Document Link'),
 });
 
 const scheduleValidation = (req, res, next) => {
@@ -36,7 +48,9 @@ const scheduleValidation = (req, res, next) => {
   next();
 };
 
+route.get('/', readSchedule);
 route.get('/all', readAllSchedule);
 route.post('/create', scheduleValidation, createSchedule);
+route.post('/update/:id', scheduleValidation, updateSchedule);
 
 module.exports = route;
