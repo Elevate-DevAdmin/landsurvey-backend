@@ -19,6 +19,18 @@ exports.employees_permission = [
   'task_one',
   'job_all',
   'job_search',
+  'comment_create',
+  'comment_update',
+  'comment_delete',
+  'comment_read',
+  'comment_one',
+  'comment_all',
+  'comment_filter',
+  'comment_fetch',
+  'schedule_all',
+  'schedule_create',
+  'schedule_read',
+  'schedule_update',
 ];
 
 exports.manager_permission = [
