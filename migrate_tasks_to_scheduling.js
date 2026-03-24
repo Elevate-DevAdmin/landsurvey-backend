@@ -60,7 +60,7 @@ async function migrate() {
             '$billing_line_items.labour_item.labour_cost_items.costItem',
           group_number: '0',
           sequence_number: '0',
-          planned_date: '2025-01-24T00:00:00.000Z',
+          planned_date: '',
           assigned_members: [],
           comments: [],
           estimated_hour:
@@ -92,7 +92,9 @@ async function migrate() {
           ? [{ manager: task.project_managers }]
           : [],
         task_scope_id: task.task_scope || null,
-        estimated_hours: task.estimated_hour ? Number(task.estimated_hour) : null,
+        estimated_hours: task.estimated_hour
+          ? Number(task.estimated_hour)
+          : null,
         group_number: 0, // default (customize if needed)
         sequence_number: 0, // default
         planned_date: task.planned_date || null,
