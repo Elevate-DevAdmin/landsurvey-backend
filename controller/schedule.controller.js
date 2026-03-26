@@ -176,6 +176,7 @@ exports.updateSchedule = async (req, res) => {
       assigned_members,
       task_scope_id,
       cost_item,
+      estimated_hours,
     } = req.body;
 
     let members = [];
@@ -193,6 +194,7 @@ exports.updateSchedule = async (req, res) => {
         assigned_members: members,
         task_scope_id,
         cost_item: [cost_item],
+        estimated_hours,
       },
       { new: true },
     );
