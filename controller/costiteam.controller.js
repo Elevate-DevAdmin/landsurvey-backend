@@ -58,7 +58,7 @@ exports.readCostIteam = async (req, res) => {
 
 exports.readAllCostIteam = async (req, res) => {
   try {
-    const userData = await costiteam.find({ is_deleted: false }).sort({ createdAt: -1 });
+    const userData = await costiteam.find({ is_deleted: false, active: true }).sort({ createdAt: -1 });
     logger.accessLog.info("cost item fetch success");
     res.send({
       statusCode: 200,

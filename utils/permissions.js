@@ -104,6 +104,7 @@ exports.manager_permission = [
   'jobscope_delete',
   'jobscope_read',
   'jobscope_one',
+  'jobscope_all',
   'costiteam_create',
   'costiteam_update',
   'costiteam_delete',
